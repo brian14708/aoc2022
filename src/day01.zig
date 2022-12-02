@@ -9,8 +9,8 @@ fn sum(comptime T: type, list: []T) T {
 }
 
 fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
-    part1: u32,
-    part2: u32,
+    part_1: u32,
+    part_2: u32,
 } {
     const T: type = u32;
 
@@ -32,8 +32,8 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
         return error.InvalidInput;
     }
     const r = .{
-        .part1 = lst.items[0],
-        .part2 = sum(T, lst.items[0..3]),
+        .part_1 = lst.items[0],
+        .part_2 = sum(T, lst.items[0..3]),
     };
     return r;
 }
@@ -45,11 +45,11 @@ pub fn main() anyerror!void {
     const result = try solve(stdin, allocator);
 
     var buf: [4096]u8 = undefined;
-    try stdout.writeAll(try std.fmt.bufPrint(&buf, "Part 1: {}\n", .{result.part1}));
-    try stdout.writeAll(try std.fmt.bufPrint(&buf, "Part 2: {}\n", .{result.part2}));
+    try stdout.writeAll(try std.fmt.bufPrint(&buf, "Part 1: {}\n", .{result.part_1}));
+    try stdout.writeAll(try std.fmt.bufPrint(&buf, "Part 2: {}\n", .{result.part_2}));
 }
 
-test "basic test" {
+test "day01" {
     const input =
         \\1000
         \\2000
@@ -69,6 +69,6 @@ test "basic test" {
 
     var buffer = std.io.fixedBufferStream(input);
     const result = try solve(buffer.reader(), std.testing.allocator);
-    try std.testing.expectEqual(@as(u32, 24000), result.part1);
-    try std.testing.expectEqual(@as(u32, 45000), result.part2);
+    try std.testing.expectEqual(@as(u32, 24000), result.part_1);
+    try std.testing.expectEqual(@as(u32, 45000), result.part_2);
 }
