@@ -15,7 +15,7 @@ fn Range(comptime T: type) type {
         }
 
         fn initStr(str: []const u8) !Self {
-            const idx = try std.mem.indexOf(u8, str, "-") orelse error.InvalidInput;
+            const idx = std.mem.indexOf(u8, str, "-") orelse return error.InvalidInput;
             return Self.init(
                 try std.fmt.parseInt(T, str[0..idx], 10),
                 try std.fmt.parseInt(T, str[idx + 1 ..], 10),
@@ -61,8 +61,8 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
     while (try reader.readUntilDelimiterOrEof(&buf, '\n')) |line| {
         var parts = std.mem.split(u8, line, ",");
         try ranges.append(.{
-            .first = try R.initStr(try parts.next() orelse error.InvalidInput),
-            .second = try R.initStr(try parts.next() orelse error.InvalidInput),
+            .first = try R.initStr(parts.next() orelse return error.InvalidInput),
+            .second = try R.initStr(parts.next() orelse return error.InvalidInput),
         });
     }
 
