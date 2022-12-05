@@ -75,11 +75,19 @@ pub fn scan(buffer: []const u8, comptime fmt: []const u8, args: anytype) !void {
             },
             Pattern.int => |ty| {
                 var new_idx = buffer_idx;
+                var first: bool = true;
                 while (new_idx < buffer.len) : (new_idx += 1) {
                     const c = buffer[new_idx];
-                    if (new_idx == buffer_idx and c == '-') {
+                    if (first and c == ' ') {
                         continue;
                     }
+                    if (first) {
+                        if (c == '-') {
+                            first = false;
+                            continue;
+                        }
+                    }
+                    first = false;
                     if (c < '0' or c > '9') {
                         break;
                     }
