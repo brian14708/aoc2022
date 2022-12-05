@@ -1,4 +1,5 @@
 const std = @import("std");
+const scan = @import("scan.zig").scan;
 
 fn Range(comptime T: type) type {
     return struct {
@@ -12,14 +13,6 @@ fn Range(comptime T: type) type {
                 .begin = begin,
                 .end = end,
             };
-        }
-
-        fn initStr(str: []const u8) !Self {
-            const idx = std.mem.indexOf(u8, str, "-") orelse return error.InvalidInput;
-            return Self.init(
-                try std.fmt.parseInt(T, str[0..idx], 10),
-                try std.fmt.parseInt(T, str[idx + 1 ..], 10),
-            );
         }
 
         fn merge(self: Self, other: Self) ?Self {
@@ -40,7 +33,6 @@ fn Range(comptime T: type) type {
             const R = Range(u32);
             const a = R.init(2, 6);
             try std.testing.expectEqual(R.init(2, 6), a.merge(R.init(3, 4)).?);
-            try std.testing.expectEqual(try R.initStr("2-8"), a.merge(R.init(3, 8)).?);
             try std.testing.expect(null == a.merge(R.init(7, 8)));
         }
     };
@@ -59,10 +51,14 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
 
     var buf: [4096]u8 = undefined;
     while (try reader.readUntilDelimiterOrEof(&buf, '\n')) |line| {
-        var parts = std.mem.split(u8, line, ",");
+        var a: u32 = undefined;
+        var b: u32 = undefined;
+        var c: u32 = undefined;
+        var d: u32 = undefined;
+        try scan(line, "{d}-{d},{d}-{d}", .{ &a, &b, &c, &d });
         try ranges.append(.{
-            .first = try R.initStr(parts.next() orelse return error.InvalidInput),
-            .second = try R.initStr(parts.next() orelse return error.InvalidInput),
+            .first = R.init(a, b),
+            .second = R.init(c, d),
         });
     }
 
@@ -91,9 +87,8 @@ pub fn main() anyerror!void {
     const stdout = std.io.getStdOut().writer();
     const result = try solve(stdin, allocator);
 
-    var buf: [4096]u8 = undefined;
-    try stdout.writeAll(try std.fmt.bufPrint(&buf, "Part 1: {}\n", .{result.part_1}));
-    try stdout.writeAll(try std.fmt.bufPrint(&buf, "Part 2: {}\n", .{result.part_2}));
+    try std.fmt.format(stdout, "Part 1: {}\n", .{result.part_1});
+    try std.fmt.format(stdout, "Part 2: {}\n", .{result.part_2});
 }
 
 test "day04" {
