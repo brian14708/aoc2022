@@ -1,0 +1,3 @@
+[submodule "libs/zig-range"]
+	path = lib/zig-range
+	url = https://github.com/nektro/zig-range.git

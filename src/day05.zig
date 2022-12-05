@@ -1,5 +1,6 @@
 const std = @import("std");
 const scan = @import("scan.zig").scan;
+const range = @import("range").range;
 
 fn StackArray(comptime T: type) type {
     return struct {
@@ -145,7 +146,7 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
         dst -= 1;
 
         try layout_2.move(src, dst, cnt);
-        while (cnt > 0) : (cnt -= 1) {
+        for (range(cnt)) |_| {
             try layout_1.move(src, dst, 1);
         }
     }

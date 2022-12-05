@@ -1,5 +1,9 @@
 const std = @import("std");
 
+fn addDeps(exe: anytype) void {
+    exe.addPackagePath("range", "./lib/zig-range/src/lib.zig");
+}
+
 pub fn build(b: *std.build.Builder) void {
     // Standard target options allows the person running `zig build` to choose
     // what target to build for. Here we do not override the defaults, which
@@ -17,6 +21,7 @@ pub fn build(b: *std.build.Builder) void {
             b.fmt("day{d:0>2}", .{i}),
             b.fmt("src/day{d:0>2}.zig", .{i}),
         );
+        addDeps(exe);
         exe.setTarget(target);
         exe.setBuildMode(mode);
         exe.install();
@@ -35,6 +40,7 @@ pub fn build(b: *std.build.Builder) void {
     }
 
     const exe_tests = b.addTest("src/test_all.zig");
+    addDeps(exe_tests);
     exe_tests.setTarget(target);
     exe_tests.setBuildMode(mode);
 
