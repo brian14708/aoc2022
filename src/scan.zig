@@ -6,7 +6,7 @@ const Pattern = union(enum) {
         end: usize,
     },
     int: type,
-    char: struct {},
+    char: void,
 };
 
 pub fn scan(buffer: []const u8, comptime fmt: []const u8, args: anytype) !void {
