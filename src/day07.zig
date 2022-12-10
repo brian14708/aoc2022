@@ -80,14 +80,14 @@ const FileSystem = struct {
         return total;
     }
 
-    fn dfs(self: *@This(), f: fn (*FileSystem) bool, allocator: std.mem.Allocator) !std.ArrayList(*FileSystem) {
+    fn dfs(self: *@This(), comptime f: fn (*FileSystem) bool, allocator: std.mem.Allocator) !std.ArrayList(*FileSystem) {
         var result = std.ArrayList(*FileSystem).init(allocator);
         errdefer result.deinit();
         try self._dfs(f, &result);
         return result;
     }
 
-    fn _dfs(self: *@This(), f: fn (*FileSystem) bool, r: *std.ArrayList(*FileSystem)) anyerror!void {
+    fn _dfs(self: *@This(), comptime f: fn (*FileSystem) bool, r: *std.ArrayList(*FileSystem)) anyerror!void {
         if (f(self)) {
             try r.append(self);
         }
@@ -153,7 +153,7 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
         }
     }
 
-    var dirs = try fs.dfs(always(*FileSystem), allocator);
+    var dirs = try fs.dfs(comptime always(*FileSystem), allocator);
     defer dirs.deinit();
     std.sort.sort(*FileSystem, dirs.items, {}, struct {
         fn lambda(_: void, a: *FileSystem, b: *FileSystem) bool {
