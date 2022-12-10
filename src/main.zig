@@ -1,12 +1,16 @@
 const std = @import("std");
 
 pub fn main() anyerror!void {
-    if (std.os.argv.len != 2) {
+    const allocator = std.heap.page_allocator;
+    const argv = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, argv);
+
+    if (argv.len != 2) {
         std.log.err("missing argument", .{});
         return;
     }
 
-    const arg = std.mem.span(std.os.argv[1]);
+    const arg = std.mem.span(argv[1]);
     if (std.mem.eql(u8, arg, "day01")) return @import("day01.zig").main();
     if (std.mem.eql(u8, arg, "day02")) return @import("day02.zig").main();
     if (std.mem.eql(u8, arg, "day03")) return @import("day03.zig").main();
