@@ -15,29 +15,20 @@ pub fn build(b: *std.build.Builder) void {
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall.
     const mode = b.standardReleaseOptions();
 
-    var i: u32 = 1;
-    while (i <= 25) : (i += 1) {
-        const exe = b.addExecutable(
-            b.fmt("day{d:0>2}", .{i}),
-            b.fmt("src/day{d:0>2}.zig", .{i}),
-        );
-        addDeps(exe);
-        exe.setTarget(target);
-        exe.setBuildMode(mode);
-        exe.install();
+    const exe = b.addExecutable("aoc2022", "src/main.zig");
+    addDeps(exe);
+    exe.setTarget(target);
+    exe.setBuildMode(mode);
+    exe.install();
 
-        const run_cmd = exe.run();
-        run_cmd.step.dependOn(&exe.install_step.?.step);
-        if (b.args) |args| {
-            run_cmd.addArgs(args);
-        }
-
-        const run_step = b.step(
-            b.fmt("run-day{d:0>2}", .{i}),
-            b.fmt("Run day {d}", .{i}),
-        );
-        run_step.dependOn(&run_cmd.step);
+    const run_cmd = exe.run();
+    run_cmd.step.dependOn(b.getInstallStep());
+    if (b.args) |args| {
+        run_cmd.addArgs(args);
     }
+
+    const run_step = b.step("run", "Run the app");
+    run_step.dependOn(&run_cmd.step);
 
     const exe_tests = b.addTest("src/test_all.zig");
     addDeps(exe_tests);
