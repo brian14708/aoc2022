@@ -46,6 +46,8 @@ pub fn scan(buffer: []const u8, comptime fmt: []const u8, args: anytype) !void {
                         *i32 => patterns[idx] = .{ .int = i32 },
                         *u64 => patterns[idx] = .{ .int = u64 },
                         *i64 => patterns[idx] = .{ .int = i64 },
+                        *usize => patterns[idx] = .{ .int = usize },
+                        *isize => patterns[idx] = .{ .int = isize },
                         else => @compileError("unsupported type"),
                     },
                     'c' => patterns[idx] = .{ .char = {} },
