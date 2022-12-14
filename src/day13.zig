@@ -148,7 +148,7 @@ pub fn main() anyerror!void {
     try std.fmt.format(stdout, "Part 2: {}\n", .{result.part_2});
 }
 
-test "day11" {
+test "day13" {
     const input =
         \\[1,1,3,1,1]
         \\[1,1,5,1,1]

@@ -121,7 +121,7 @@ pub fn main() anyerror!void {
     try std.fmt.format(stdout, "Part 2: {}\n", .{result.part_2});
 }
 
-test "day11" {
+test "day12" {
     const input =
         \\Sabqponm
         \\abcryxxl
