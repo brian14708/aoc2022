@@ -9,7 +9,7 @@ const Pattern = union(enum) {
     char: void,
 };
 
-pub fn scan(buffer: []const u8, comptime fmt: []const u8, args: anytype) !void {
+pub fn scan(buffer: []const u8, comptime fmt: []const u8, args: anytype) !usize {
     const ArgsType = @TypeOf(args);
     const args_type_info = @typeInfo(ArgsType);
     if (args_type_info != .Struct) {
@@ -108,15 +108,16 @@ pub fn scan(buffer: []const u8, comptime fmt: []const u8, args: anytype) !void {
             },
         }
     }
+    return buffer_idx;
 }
 
 test {
-    try scan("hello", "hello", .{});
+    _ = try scan("hello", "hello", .{});
     var x: u32 = undefined;
     var y: i32 = undefined;
-    try scan("hello 123", "hello {d}", .{&x});
+    _ = try scan("hello 123", "hello {d}", .{&x});
     try std.testing.expectEqual(@as(u32, 123), x);
-    try scan("999 hello -123", "{d} hello {d}", .{
+    _ = try scan("999 hello -123", "{d} hello {d}", .{
         &x,
         &y,
     });

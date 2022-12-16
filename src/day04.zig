@@ -55,7 +55,7 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
         var b: u32 = undefined;
         var c: u32 = undefined;
         var d: u32 = undefined;
-        try scan(line, "{d}-{d},{d}-{d}", .{ &a, &b, &c, &d });
+        _ = try scan(line, "{d}-{d},{d}-{d}", .{ &a, &b, &c, &d });
         try ranges.append(.{
             .first = R.init(a, b),
             .second = R.init(c, d),

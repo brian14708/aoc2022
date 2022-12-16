@@ -62,11 +62,11 @@ const Monkey = struct {
         {
             // Test
             line = try reader.readUntilDelimiterOrEof(&buf, '\n');
-            try scan(line.?, "  Test: divisible by {d}", .{&s.rule.divisible});
+            _ = try scan(line.?, "  Test: divisible by {d}", .{&s.rule.divisible});
             line = try reader.readUntilDelimiterOrEof(&buf, '\n');
-            try scan(line.?, "    If true: throw to monkey {d}", .{&s.rule.true_branch});
+            _ = try scan(line.?, "    If true: throw to monkey {d}", .{&s.rule.true_branch});
             line = try reader.readUntilDelimiterOrEof(&buf, '\n');
-            try scan(line.?, "    If false: throw to monkey {d}", .{&s.rule.false_branch});
+            _ = try scan(line.?, "    If false: throw to monkey {d}", .{&s.rule.false_branch});
         }
         // NL
         _ = reader.readUntilDelimiterOrEof(&buf, '\n') catch null;
@@ -165,7 +165,7 @@ pub fn main() anyerror!void {
     try std.fmt.format(stdout, "Part 2: {}\n", .{result.part_2});
 }
 
-test "day10" {
+test "day11" {
     const input = @embedFile("testcase/day11.txt");
 
     var buffer = std.io.fixedBufferStream(input);

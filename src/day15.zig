@@ -49,7 +49,7 @@ fn solve(reader: anytype, row: i32, area: i32, allocator: std.mem.Allocator) !st
     var buf: [4096]u8 = undefined;
     while (try reader.readUntilDelimiterOrEof(&buf, '\n')) |line| {
         var i: Input = undefined;
-        try scan(line, "Sensor at x={d}, y={d}: closest beacon is at x={d}, y={d}", .{
+        _ = try scan(line, "Sensor at x={d}, y={d}: closest beacon is at x={d}, y={d}", .{
             &i.sensor[0],
             &i.sensor[1],
             &i.beacon[0],

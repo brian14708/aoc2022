@@ -141,7 +141,7 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
         var cnt: u32 = undefined;
         var src: u32 = undefined;
         var dst: u32 = undefined;
-        try scan(line, "move {d} from {d} to {d}", .{ &cnt, &src, &dst });
+        _ = try scan(line, "move {d} from {d} to {d}", .{ &cnt, &src, &dst });
         src -= 1;
         dst -= 1;
 

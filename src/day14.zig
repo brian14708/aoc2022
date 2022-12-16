@@ -132,7 +132,7 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
         while (true) {
             const end = std.mem.indexOfScalar(u8, ptr, ' ') orelse ptr.len;
             var coord: [2]i16 = undefined;
-            try scan(ptr[0..end], "{d},{d}", .{ &coord[0], &coord[1] });
+            _ = try scan(ptr[0..end], "{d},{d}", .{ &coord[0], &coord[1] });
             if (prev) |p| {
                 try segments.append(.{ p[0], p[1], coord[0], coord[1] });
             }

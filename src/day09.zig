@@ -103,7 +103,7 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
     while (try reader.readUntilDelimiterOrEof(&buf, '\n')) |line| {
         var ch: u8 = undefined;
         var cnt: i32 = undefined;
-        try scan(line, "{c} {d}", .{ &ch, &cnt });
+        _ = try scan(line, "{c} {d}", .{ &ch, &cnt });
         var dir: Rope.Position = switch (ch) {
             'R' => .{ .x = 1, .y = 0 },
             'L' => .{ .x = -1, .y = 0 },
