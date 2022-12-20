@@ -42,7 +42,7 @@ fn VM(comptime nr_regs: usize, comptime T: type) type {
         fn appendInstruction(self: *Self, ins: []const u8) !void {
             var reg: u8 = undefined;
             var val: T = undefined;
-            if (scan(ins, "add{c} {d}", .{ &reg, &val })) {
+            if (scan(ins, "add{c} {d}", .{ &reg, &val })) |_| {
                 return self.instructions.append(.{
                     .add = .{
                         .reg = reg - 'x',

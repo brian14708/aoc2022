@@ -146,7 +146,7 @@ fn solve(reader: anytype, allocator: std.mem.Allocator) !struct {
             n.rate = rate;
         }
 
-        if (scan(rest, "tunnel leads to valve {c}{c}", .{ &name[0], &name[1] })) {
+        if (scan(rest, "tunnel leads to valve {c}{c}", .{ &name[0], &name[1] })) |_| {
             const dst: *Node = try getNode(&graph, name, allocator);
             try entry.next.append(.{
                 .node = dst,
