@@ -197,7 +197,7 @@ pub fn main() anyerror!void {
     try std.fmt.format(stdout, "Part 2: {}\n", .{result.part_2});
 }
 
-test "day06" {
+test "day07" {
     const input =
         \\$ cd /
         \\$ ls

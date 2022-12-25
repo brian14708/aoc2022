@@ -124,7 +124,7 @@ pub fn main() anyerror!void {
     try std.fmt.format(stdout, "Part 2: {}\n", .{result.part_2});
 }
 
-test "day18" {
+test "day24" {
     const input =
         \\#.######
         \\#>>.<^<#

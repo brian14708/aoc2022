@@ -163,7 +163,7 @@ pub fn main() anyerror!void {
     try std.fmt.format(stdout, "Part 2: {}\n", .{result.part_2});
 }
 
-test "day07" {
+test "day08" {
     const input =
         \\30373
         \\25512
